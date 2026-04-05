@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const displayMenu = (menu) => {
+        numbersContainer.innerHTML = '';
         const menuElement = document.createElement('div');
         menuElement.classList.add('menu-item');
         menuElement.textContent = menu;
@@ -38,9 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     generateBtn.addEventListener('click', () => {
-        numbersContainer.innerHTML = '';
-        const recommendedMenu = getRandomMenu();
-        displayMenu(recommendedMenu);
+        generateBtn.disabled = true;
+        let count = 0;
+        const interval = setInterval(() => {
+            displayMenu(getRandomMenu());
+            count++;
+            if (count > 10) {
+                clearInterval(interval);
+                const finalMenu = getRandomMenu();
+                displayMenu(finalMenu);
+                generateBtn.disabled = false;
+            }
+        }, 100);
     });
 
     // Form submission logic
